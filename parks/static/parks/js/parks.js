@@ -1,7 +1,6 @@
 window.bgm = window.bgm || {};
 
-$(function(){  
-
+$(function(){
   var defaultZoom = 13,
       searchUrl = '/parks/search/',
       parks, // park properties
@@ -13,7 +12,6 @@ $(function(){
       facilityPopupTemplateSource = $("#facilityPopup-template").html(),
       facilityPopupTemplate = Handlebars.compile(facilityPopupTemplateSource),
       mappedParkFacilities = [] // list of parks with rendered facilities;
-
 
   //-- Urls and hashes --//
 
@@ -93,7 +91,6 @@ $(function(){
 
 
   //-- Map setup --//
-
   // initialize map
   var basemap = new L.MAPCTileLayer("basemap"),
       trailmap = new L.MAPCTileLayer("trailmap"),
@@ -106,6 +103,15 @@ $(function(){
         center: boston,
         layers: [basemap]
       });
+
+  popup = L.popup()
+    .setLatLng([42.357778, -71.061667])
+    .setContent('<h4>Boston Green Map</h4>\
+Get information about parks and open space in Metro Boston. \
+ Find your Space by selecting your neighborhood or city, an activity or \
+search for a park by name. Click on a green space to get more information \
+about the park and its facilities<BR>\
+<div id="ok"><a onClick="popup._close();" id="okAnchor" href="#"  class="btn btn-small" title="Close this Popup">OK</a></div>').openOn(map);
 
   // initialize Parklayer
   var parkLayer = L.geoJson(null, {
@@ -123,8 +129,7 @@ $(function(){
       var div = L.DomUtil.create( "div" );
 
       $(div)
-        .addClass( "popup" )
-        .append( html );
+        .addClass( "popup" ).append( html );
 
       $(div).find(".info").first().on("click", function( event ) {
         event.preventDefault();
@@ -142,6 +147,7 @@ $(function(){
       return true;
     }
   }).addTo( map );
+
   // initialize Facilitylayer
   var facilityLayer = L.geoJson(null).addTo( map );
 
@@ -174,7 +180,6 @@ $(function(){
     return div;
   }; 
   map.addControl(locateMeControl);
-
 
   //-- Retrieve Park Data --//
 
@@ -304,7 +309,6 @@ $(function(){
       if ( parkNames.length === 1 ) {
         show_parkDetail( parks[id] );
       }
-
     });
   };
 
@@ -367,5 +371,4 @@ $(function(){
     var parkBounds = get_parkBounds( park.id );
     map.fitBounds( parkBounds );
   }
-
 });
